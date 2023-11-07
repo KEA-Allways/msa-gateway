@@ -1,0 +1,72 @@
+server:
+  port: 8082
+
+eureka:
+  instance:
+    #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: '*'
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - OPTIONS
+              - DELETE
+      routes:
+        - id: user-command-service
+          uri: lb://user-command-service
+          predicates:
+            - Path=/api/users/**
+            - Method=POST,PUT,DELETE
+        #  filters:
+        #    - RewritePath=/api/(?<path>.*), /$\{path}
+
+        - id: user-query-service
+          uri: lb://user-query-service
+          predicates:
+            - Path=/api/users/**
+            - Method=GET
+
+
+        - id: blog-command-service
+          uri: lb://blog-command-service
+          predicates:
+            - Path=/api/blogs/** , api/posts/** ,/api/themes/**, /api/templates/**
+            - Method=POST,PUT,DELETE
+
+
+        - id: blog-query-service
+          uri: lb://blog-query-service
+          predicates:
+            - Path=/api/blogs/** , api/posts/** ,/api/themes/**, /api/templates/**
+            - Method=GET
+
+
+#        - id: file-command-service
+#          uri: lb://file-command-service
+#          predicates:
+# #            - Path=/api/**
+# #            - Method = POST,PUT,DELETE
+
+
+#        - id: file-query-service
+#          uri: lb://file-query_-service
+#          predicates:
+# #            - Path=/api/**
+#            - Method=GET
+
