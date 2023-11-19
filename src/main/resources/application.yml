@@ -81,3 +81,10 @@ spring:
   profiles:
     active: local
     include: secret
+
+
+logging:
+  level:
+    com:
+      allways:
+        filter: DEBUG
