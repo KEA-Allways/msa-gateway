@@ -17,7 +17,7 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      globalcors:
+      globals:
         corsConfigurations:
           '[/**]':
             allowedOrigins: '*'
@@ -28,34 +28,43 @@ spring:
               - OPTIONS
               - DELETE
       routes:
+        - id: user-command-service-sign
+          uri: lb://user-command-service
+          predicates:
+            - Path=/api/auth/**
+            - Method=POST
+
         - id: user-command-service
           uri: lb://user-command-service
           predicates:
-            - Path=/api/users/**
+            - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
-        #  filters:
-        #    - RewritePath=/api/(?<path>.*), /$\{path}
+          filters:
+            - name: AccessTokenDecryptFilter
 
         - id: user-query-service
           uri: lb://user-query-service
           predicates:
-            - Path=/api/users/**
+            - Path=/api/user/**, /api/blog/**
             - Method=GET
-
+          filters:
+            - name: AccessTokenDecryptFilter
 
         - id: blog-command-service
           uri: lb://blog-command-service
           predicates:
-            - Path=/api/blogs/** , api/posts/** ,/api/themes/**, /api/templates/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
-
+          filters:
+            - name: AccessTokenDecryptFilter
 
         - id: blog-query-service
           uri: lb://blog-query-service
           predicates:
-            - Path=/api/blogs/** , api/posts/** ,/api/themes/**, /api/templates/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
-
+          filters:
+            - name: AccessTokenDecryptFilter
 
 #        - id: file-command-service
 #          uri: lb://file-command-service
@@ -69,4 +78,6 @@ spring:
 #          predicates:
 # #            - Path=/api/**
 #            - Method=GET
-
+  profiles:
+    active: local
+    include: secret
