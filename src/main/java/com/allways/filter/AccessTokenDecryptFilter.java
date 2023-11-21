@@ -14,8 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.allways.AuthenticationEntryPointException;
 import com.allways.TokenHelper;
-import com.allways.feign.AccessTokenFeignResponse;
-import com.allways.feign.AccessTokenFeignService;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
