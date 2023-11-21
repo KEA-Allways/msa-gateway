@@ -17,7 +17,7 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      globalcors:
+      globals:
         corsConfigurations:
           '[/**]':
             allowedOrigins: '*'
@@ -31,13 +31,13 @@ spring:
         - id: user-command-service-sign
           uri: lb://user-command-service
           predicates:
-            - Path=/api/sign-in, /api/sign-up
+            - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
           uri: lb://user-command-service
           predicates:
-            - Path=/api/users/**
+            - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
           filters:
             - name: AccessTokenDecryptFilter
@@ -45,7 +45,7 @@ spring:
         - id: user-query-service
           uri: lb://user-query-service
           predicates:
-            - Path=/api/users/**
+            - Path=/api/user/**, /api/blog/**
             - Method=GET
           filters:
             - name: AccessTokenDecryptFilter
@@ -53,7 +53,7 @@ spring:
         - id: blog-command-service
           uri: lb://blog-command-service
           predicates:
-            - Path=/api/blogs/** , api/posts/** ,/api/themes/**, /api/templates/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
           filters:
             - name: AccessTokenDecryptFilter
@@ -61,7 +61,7 @@ spring:
         - id: blog-query-service
           uri: lb://blog-query-service
           predicates:
-            - Path=/api/blogs/**, api/posts/**, /api/themes/**, /api/templates/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
           filters:
             - name: AccessTokenDecryptFilter
