@@ -15,26 +15,26 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtHandler {
 	private String type = "Bearer ";
 
-	public String createToken(String encodedKey, String subject, long maxAgeSeconds){
+	public String createToken(String encodedKey, String subject, long maxAgeSeconds) {
 		Date now = new Date();
-		return type+ Jwts.builder()
+		return type + Jwts.builder()
 			.setSubject(subject)
 			.setIssuedAt(now)
-			.setExpiration(new Date(now.getTime()+maxAgeSeconds * 1000L))
-			.signWith(SignatureAlgorithm.HS256,encodedKey)
+			.setExpiration(new Date(now.getTime() + maxAgeSeconds * 1000L))
+			.signWith(SignatureAlgorithm.HS256, encodedKey)
 			.compact();
 	}
 
-	public String extractSubjects(String encodedKey, String token){
-		return parse(encodedKey,token).getBody().getSubject();
+	public String extractSubjects(String encodedKey, String token) {
+		return parse(encodedKey, token).getBody().getSubject();
 	}
 
-	public boolean validate(String encodedKey, String token){
-		try{
-			parse(encodedKey,token);
+	public boolean validate(String encodedKey, String token) {
+		try {
+			parse(encodedKey, token);
 			return true;
 
-		}catch (JwtException e){
+		} catch (JwtException e) {
 			return false;
 		}
 	}
@@ -44,6 +44,7 @@ public class JwtHandler {
 			.setSigningKey(key)
 			.parseClaimsJws(untype(token));
 	}
+
 	private String untype(String token) {
 		return token.substring(type.length());
 	}

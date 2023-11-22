@@ -17,16 +17,22 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      globals:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: '*'
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowedOrigins: 'http://localhost:3000'
+            allow-credentials: true
+            allowedHeaders: '*'
             allowedMethods:
-              - POST
-              - GET
               - PUT
-              - OPTIONS
+              - GET
+              - POST
               - DELETE
+              - OPTIONS
+        add-to-simple-url-handler-mapping : true
+
       routes:
         - id: user-command-service-sign
           uri: lb://user-command-service
