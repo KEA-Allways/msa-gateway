@@ -7,7 +7,7 @@ pipeline {
         
         
         //서버 정보
-        ip = "54.87.40.18"
+        ip = "3.94.102.116"
         username = "ubuntu"
         
         //스프링 서버 정보
@@ -103,7 +103,7 @@ pipeline {
             
                 sh 'ssh -o StrictHostKeyChecking=no ${username}@${ip} "whoami"'
 
-               
+
                 
                 sh "ssh -o StrictHostKeyChecking=no ${username}@${ip} 'docker pull ${imagename}:${tagname}'"
                 sh "ssh -o StrictHostKeyChecking=no ${username}@${ip} 'docker run -d -p ${port}:${port} --name ${springname} ${imagename}:${tagname}'"
