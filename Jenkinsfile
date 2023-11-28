@@ -21,7 +21,7 @@ pipeline {
         tagname = "dev"
         
         //깃 정보
-        giturl = 'https://github.com/KEA-Allways/Jenkins-Test.git'
+        giturl = 'https://github.com/KEA-Allways/msa-gateway.git'
         gitCredential = "github-access-token"
         branchname = "prod"
     }
