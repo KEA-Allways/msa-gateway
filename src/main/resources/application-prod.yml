@@ -3,8 +3,9 @@ server:
 
 eureka:
   instance:
+    #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: gateway
+    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -71,18 +72,18 @@ spring:
           filters:
             - name: AccessTokenDecryptFilter
 
-        - id: file-command-service
-          uri: lb://file-command-service
-          predicates:
-            - Path=/api/**
-            - Method = POST,PUT,DELETE
+#        - id: file-command-service
+#          uri: lb://file-command-service
+#          predicates:
+# #            - Path=/api/**
+# #            - Method = POST,PUT,DELETE
 
-        - id: file-query-service
-          uri: lb://file-query_-service
-          predicates:
-           - Path=/api/**
-           - Method=GET
 
+#        - id: file-query-service
+#          uri: lb://file-query_-service
+#          predicates:
+# #            - Path=/api/**
+#            - Method=GET
 jwt:
   key:
     #스프링부트 마스터하고싶다
@@ -91,5 +92,5 @@ jwt:
     refresh: 7Iqk7ZSE66eB67aA7Yq4IOuniOyKpO2EsO2VmOqzoOyLtuuLpCDsp4Tsp5zroZw=
 
   max-age:
-    access: 604800 # 60 * 30
+    access: 604800xw # 60 * 30
     refresh: 604800 # 60 * 60 * 24 * 7
