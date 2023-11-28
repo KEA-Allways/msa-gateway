@@ -52,4 +52,5 @@ tasks.named('test') {
 bootJar{
 	archivesBaseName = 'allways'
 	archiveFileName = 'msa-gateway.jar'
+
 }
