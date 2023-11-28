@@ -84,5 +84,4 @@ spring:
            - Method=GET
 
   profiles:
-    active: prod
     include: secret
