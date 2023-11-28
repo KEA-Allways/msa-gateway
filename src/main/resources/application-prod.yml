@@ -1,0 +1,88 @@
+server:
+  port: 8082
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: gateway
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://54.87.40.18:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowedOrigins: 'http://localhost:3000'
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
+        add-to-simple-url-handler-mapping : true
+
+      routes:
+        - id: user-command-service-sign
+          uri: lb://user-command-service
+          predicates:
+            - Path=/api/auth/**
+            - Method=POST
+
+        - id: user-command-service
+          uri: lb://user-command-service
+          predicates:
+            - Path=/api/user/**, /api/blog/**
+            - Method=POST,PUT,DELETE
+          filters:
+            - name: AccessTokenDecryptFilter
+
+        - id: user-query-service
+          uri: lb://user-query-service
+          predicates:
+            - Path=/api/user/**, /api/blog/**
+            - Method=GET
+          filters:
+            - name: AccessTokenDecryptFilter
+
+        - id: blog-command-service
+          uri: lb://blog-command-service
+          predicates:
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
+            - Method=POST,PUT,DELETE
+          filters:
+            - name: AccessTokenDecryptFilter
+
+        - id: blog-query-service
+          uri: lb://blog-query-service
+          predicates:
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
+            - Method=GET
+          filters:
+            - name: AccessTokenDecryptFilter
+
+        - id: file-command-service
+          uri: lb://file-command-service
+          predicates:
+            - Path=/api/**
+            - Method = POST,PUT,DELETE
+
+        - id: file-query-service
+          uri: lb://file-query_-service
+          predicates:
+           - Path=/api/**
+           - Method=GET
+
+  profiles:
+    active: prod
+    include: secret
