@@ -5,6 +5,7 @@ eureka:
   instance:
     #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address : true
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -34,13 +35,15 @@ spring:
 
       routes:
         - id: user-command-service-sign
-          uri: lb://user-command-service
+#          uri: lb://user-command-service
+          uri: http://44.201.129.31:8083
           predicates:
             - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
-          uri: lb://user-command-service
+#          uri: lb://user-command-service
+          uri: http://44.201.129.31:8083
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
@@ -48,7 +51,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: user-query-service
-          uri: lb://user-query-service
+#          uri: lb://user-query-service
+          uri: http://44.201.129.31:8084
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=GET
@@ -56,7 +60,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-command-service
-          uri: lb://blog-command-service
+#          uri: lb://blog-command-service
+          uri: http://54.147.162.65:8085
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
@@ -64,7 +69,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-query-service
-          uri: lb://blog-query-service
+#          uri: lb://blog-query-service
+          uri: http://54.147.162.65:8086
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
