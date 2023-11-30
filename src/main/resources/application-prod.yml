@@ -1,6 +1,15 @@
 server:
   port: 8082
 
+  front-url : http://localhost:3000
+  eureka-url : http://54.87.40.18:8761/eureka
+  user-command-url: http://44.201.129.31:8083
+  user-query-url : http://44.201.129.31:8084
+  blog-command-url: http://54.147.162.65:8085
+  blog-query-url : http://54.147.162.65:8086
+  file-command-url: http://3.86.230.148:8087
+  file-query-url : http://3.86.230.148:8088
+
 eureka:
   instance:
     #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -10,7 +19,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://54.87.40.18:8761/eureka
+      defaultZone: ${server.eureka-url}
 
 spring:
   application:
@@ -22,7 +31,7 @@ spring:
       globalcors:
         cors-configurations:
           "[/**]":
-            allowedOrigins: 'http://localhost:3000'
+            allowedOrigins: ${server.front-url}
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
@@ -36,14 +45,14 @@ spring:
       routes:
         - id: user-command-service-sign
 #          uri: lb://user-command-service
-          uri: http://44.201.129.31:8083
+          uri: ${server.user-command-url}
           predicates:
             - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
 #          uri: lb://user-command-service
-          uri: http://44.201.129.31:8083
+          uri: ${server.user-command-url}
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
@@ -52,7 +61,7 @@ spring:
 
         - id: user-query-service
 #          uri: lb://user-query-service
-          uri: http://44.201.129.31:8084
+          uri: ${server.user-query-url}
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=GET
@@ -61,7 +70,7 @@ spring:
 
         - id: blog-command-service
 #          uri: lb://blog-command-service
-          uri: http://54.147.162.65:8085
+          uri: ${server.blog-command-url}
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
@@ -70,25 +79,27 @@ spring:
 
         - id: blog-query-service
 #          uri: lb://blog-query-service
-          uri: http://54.147.162.65:8086
+          uri: ${server.blog-query-url}
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
           filters:
             - name: AccessTokenDecryptFilter
 
-#        - id: file-command-service
+        - id: file-command-service
 #          uri: lb://file-command-service
-#          predicates:
-# #            - Path=/api/**
-# #            - Method = POST,PUT,DELETE
+          uri: ${server.file-command-url}
+          predicates:
+             - Path=/api/**
+             - Method = POST,PUT,DELETE
 
 
-#        - id: file-query-service
+        - id: file-query-service
 #          uri: lb://file-query_-service
-#          predicates:
-# #            - Path=/api/**
-#            - Method=GET
+          uri: ${server.file-query-url}
+          predicates:
+            - Path=/api/**
+            - Method=GET
 jwt:
   key:
     #스프링부트 마스터하고싶다
@@ -99,3 +110,4 @@ jwt:
   max-age:
     access: 604800 # 60 * 30
     refresh: 604800 # 60 * 60 * 24 * 7
+
