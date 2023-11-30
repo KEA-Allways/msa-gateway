@@ -86,7 +86,7 @@ spring:
           uri: ${env.file-command-url}
           predicates:
              - Path=/api/feign/**, /api/file/**
-             - Method = POST,PUT,DELETE
+             - Method=POST,PUT,DELETE
 
 
         - id: file-query-service

@@ -71,18 +71,20 @@ spring:
           filters:
             - name: AccessTokenDecryptFilter
 
-#        - id: file-command-service
-#          uri: lb://file-command-service
-#          predicates:
-# #            - Path=/api/**
-# #            - Method = POST,PUT,DELETE
+        - id: file-command-service
+          #          uri: lb://file-command-service
+          uri: ${env.file-command-url}
+          predicates:
+            - Path=/api/feign/**, /api/file/**
+            - Method=POST,PUT,DELETE
 
 
-#        - id: file-query-service
-#          uri: lb://file-query_-service
-#          predicates:
-# #            - Path=/api/**
-#            - Method=GET
+        - id: file-query-service
+          #          uri: lb://file-query_-service
+          uri: ${env.file-query-url}
+          predicates:
+            - Path=/api/feign/**
+            - Method=GET
 jwt:
   key:
     #스프링부트 마스터하고싶다
