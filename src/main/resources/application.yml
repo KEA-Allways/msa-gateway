@@ -4,11 +4,12 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address : true
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${env.eureka-url}
 
 spring:
   application:
@@ -33,13 +34,13 @@ spring:
 
       routes:
         - id: user-command-service-sign
-          uri: lb://user-command-service
+          uri: ${env.user-command-url}
           predicates:
             - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
-          uri: lb://user-command-service
+          uri: ${env.user-command-url}
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
@@ -47,7 +48,7 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: user-query-service
-          uri: lb://user-query-service
+          uri: ${env.user-query-url}
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=GET
@@ -55,7 +56,7 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-command-service
-          uri: lb://blog-command-service
+          uri:  ${env.blog-command-url}
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
@@ -63,7 +64,7 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-query-service
-          uri: lb://blog-query-service
+          uri: ${env.blog-query-url}
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
@@ -92,3 +93,14 @@ jwt:
   max-age:
     access: 604800 # 60 * 30
     refresh: 604800 # 60 * 60 * 24 * 7
+
+env:
+  front-url: http://localhost:3000
+  eureka-url: http://localhost:8761/eureka
+  user-command-url: http://localhost:8083
+  user-query-url: http://localhost:8084
+  blog-command-url: http://localhost:8085
+  blog-query-url: http://localhost:8086
+  file-command-url: http://localhost:8087
+  file-query-url: http://localhost:8088
+
