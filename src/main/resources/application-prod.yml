@@ -83,7 +83,7 @@ spring:
 
         - id: file-command-service
 #          uri: lb://file-command-service
-          uri: ${server.file-command-url}
+          uri: ${env.file-command-url}
           predicates:
              - Path=/api/feign/**, /api/file/**
              - Method = POST,PUT,DELETE
@@ -91,7 +91,7 @@ spring:
 
         - id: file-query-service
 #          uri: lb://file-query_-service
-          uri: ${server.file-query-url}
+          uri: ${env.file-query-url}
           predicates:
             - Path=/api/feign/**
             - Method=GET
