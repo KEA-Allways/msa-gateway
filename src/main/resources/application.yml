@@ -97,7 +97,7 @@ jwt:
 env:
   front-url: http://localhost:3000
   eureka-url: http://localhost:8761/eureka
-  user-command-url: http:/localhost:8083
+  user-command-url: http://localhost:8083
   user-query-url: http://localhost:8084
   blog-command-url: http://localhost:8085
   blog-query-url: http://localhost:8086
