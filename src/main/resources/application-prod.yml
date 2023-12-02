@@ -3,7 +3,7 @@ server:
 
 env:
   front-url: http://localhost:3000
-  eureka-url: http://54.87.40.18:8761/eureka
+  eureka-url: http://54.237.219.35:8761/eureka
   user-command-url: http://44.201.129.31:8083
   user-query-url: http://44.201.129.31:8084
   blog-command-url: http://54.147.162.65:8085
