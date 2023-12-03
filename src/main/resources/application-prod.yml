@@ -1,6 +1,15 @@
 server:
   port: 8082
-  address: 3.94.102.116
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address : true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${env.eureka-url}
 
 spring:
   application:
@@ -81,19 +90,6 @@ spring:
           predicates:
             - Path=/api/feign/**
             - Method=GET
-
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: gateway-service
-  client:
-
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: ${env.eureka-url}
-
-
 jwt:
   key:
     #스프링부트 마스터하고싶다
