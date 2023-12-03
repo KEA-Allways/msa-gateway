@@ -1,5 +1,6 @@
 server:
   port: 8082
+  address: 3.94.102.116
 
 eureka:
   instance:
