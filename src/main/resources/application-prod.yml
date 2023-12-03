@@ -5,8 +5,9 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    prefer-ip-address : true
+    hostname: gateway-service
   client:
+
     register-with-eureka: true
     fetch-registry: true
     service-url:
@@ -40,14 +41,14 @@ spring:
           #          uri: ${env.user-command-url}
           uri: lb://user-command-service
           predicates:
-            - Path=user-command-service/api/auth/**
+            - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
           #          uri: ${env.user-command-url}
           uri: lb://user-command-service
           predicates:
-            - Path=user-command-service/api/user/**, user-command-service/api/blog/**
+            - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
           filters:
             - name: AccessTokenDecryptFilter
@@ -56,7 +57,7 @@ spring:
           #          uri: ${env.user-query-url}
           uri: lb://user-query-service
           predicates:
-            - Path=user-query-service/api/user/**, user-query-service/api/blog/**
+            - Path=/api/user/**, /api/blog/**
             - Method=GET
           filters:
             - name: AccessTokenDecryptFilter
@@ -65,7 +66,7 @@ spring:
           #          uri:  ${env.blog-command-url}
           uri: lb://blog-command-service
           predicates:
-            - Path=blog-command-service/api/post/** , blog-command-service/api/theme/**, blog-command-service/api/template/** , blog-command-service/api/category/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
           filters:
             - name: AccessTokenDecryptFilter
@@ -74,7 +75,7 @@ spring:
           #          uri: ${env.blog-query-url}
           uri: lb://blog-query-service
           predicates:
-            - Path=blog-query-service/api/post/** ,blog-query-service/api/theme/**, blog-query-service/api/template/** , blog-query-service/api/category/**
+            - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
           filters:
             - name: AccessTokenDecryptFilter
