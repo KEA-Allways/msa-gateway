@@ -1,16 +1,6 @@
 server:
   port: 8082
 
-env:
-  front-url: http://localhost:3000
-  eureka-url: http://3.213.139.105:8761/eureka
-  user-command-url: http://44.201.129.31:8083
-  user-query-url: http://44.201.129.31:8084
-  blog-command-url: http://54.147.162.65:8085
-  blog-query-url: http://54.147.162.65:8086
-  file-command-url: http://3.86.230.148:8087
-  file-query-url: http://3.86.230.148:8088
-
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
@@ -31,7 +21,7 @@ spring:
       globalcors:
         cors-configurations:
           "[/**]":
-            allowedOrigins: 'http://localhost:3000'
+            allowedOrigins: 'http://gcu-kea-001-front.s3-website.ap-northeast-2.amazonaws.com'
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
@@ -44,13 +34,15 @@ spring:
 
       routes:
         - id: user-command-service-sign
-          uri: ${env.user-command-url}
+          #          uri: ${env.user-command-url}
+          uri: lb://user-command-service
           predicates:
             - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
-          uri: ${env.user-command-url}
+          #          uri: ${env.user-command-url}
+          uri: lb://user-command-service
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=POST,PUT,DELETE
@@ -58,7 +50,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: user-query-service
-          uri: ${env.user-query-url}
+          #          uri: ${env.user-query-url}
+          uri: lb://user-query-service
           predicates:
             - Path=/api/user/**, /api/blog/**
             - Method=GET
@@ -66,7 +59,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-command-service
-          uri:  ${env.blog-command-url}
+          #          uri:  ${env.blog-command-url}
+          uri: lb://blog-command-service
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=POST,PUT,DELETE
@@ -74,7 +68,8 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-query-service
-          uri: ${env.blog-query-url}
+          #          uri: ${env.blog-query-url}
+          uri: lb://blog-query-service
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
             - Method=GET
@@ -82,16 +77,16 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: file-command-service
-#          uri: lb://file-command-service
-          uri: ${env.file-command-url}
+          #          uri: ${env.file-command-url}
+          uri: lb://file-command-service
           predicates:
-             - Path=/api/feign/**, /api/file/**
-             - Method=POST,PUT,DELETE
+            - Path=/api/feign/**, /api/file/**
+            - Method=POST,PUT,DELETE
 
 
         - id: file-query-service
-#          uri: lb://file-query_-service
-          uri: ${env.file-query-url}
+          #          uri: ${env.file-query-url}
+          uri: lb://file-query-service
           predicates:
             - Path=/api/feign/**
             - Method=GET
@@ -105,4 +100,15 @@ jwt:
   max-age:
     access: 604800 # 60 * 30
     refresh: 604800 # 60 * 60 * 24 * 7
+
+
+env:
+  front-url: http://http://gcu-kea-001-front.s3-website.ap-northeast-2.amazonaws.com
+  eureka-url: http://3.213.139.105:8761/eureka
+  user-command-url: http://44.201.129.31:8083
+  user-query-url: http://44.201.129.31:8084
+  blog-command-url: http://54.147.162.65:8085
+  blog-query-url: http://54.147.162.65:8086
+  file-command-url: http://3.86.230.148:8087
+  file-query-url: http://3.86.230.148:8088
 
