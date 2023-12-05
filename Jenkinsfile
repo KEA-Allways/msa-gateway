@@ -1,11 +1,8 @@
 pipeline {
     agent any
 
-
-
     environment {
-        
-        
+
         //서버 정보
         ip = "3.94.102.116"
         username = "ubuntu"
