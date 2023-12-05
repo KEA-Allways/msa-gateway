@@ -24,7 +24,7 @@ spring:
         cors-configurations:
           "[/**]":
             # cloudfront #######
-            allowedOrigins: 'https://dp9pd7j4hdqzg.cloudfront.net'
+            allowedOrigins: 'https://dp9pd7j4hdqzg.cloudfront.net, http://gcu-kea-001-front.s3-website.ap-northeast-2.amazonaws.com'
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
