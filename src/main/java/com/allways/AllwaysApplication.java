@@ -8,6 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class AllwaysApplication {
 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AllwaysApplication.class, args);
 	}
