@@ -4,13 +4,14 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    prefer-ip-address : true
+    #
     hostname: 3.94.102.116
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: ${env.eureka-url}
+      #
+      defaultZone: http://3.213.139.105:8761/eureka
 
 spring:
   application:
@@ -22,6 +23,7 @@ spring:
       globalcors:
         cors-configurations:
           "[/**]":
+            # cloudfront #######
             allowedOrigins: 'http://gcu-kea-001-front.s3-website.ap-northeast-2.amazonaws.com'
             allow-credentials: true
             allowedHeaders: '*'
@@ -89,7 +91,7 @@ spring:
           #          uri: ${env.file-query-url}
           uri: lb://file-query-service
           predicates:
-            - Path=/api/feign/**
+            - Path=/api/feign/**, /api/file/**
             - Method=GET
 jwt:
   key:
@@ -102,14 +104,4 @@ jwt:
     access: 604800 # 60 * 30
     refresh: 604800 # 60 * 60 * 24 * 7
 
-
-env:
-  front-url: http://http://gcu-kea-001-front.s3-website.ap-northeast-2.amazonaws.com
-  eureka-url: http://3.213.139.105:8761/eureka
-  user-command-url: http://44.201.129.31:8083
-  user-query-url: http://44.201.129.31:8084
-  blog-command-url: http://54.147.162.65:8085
-  blog-query-url: http://54.147.162.65:8086
-  file-command-url: http://3.86.230.148:8087
-  file-query-url: http://3.86.230.148:8088
 
