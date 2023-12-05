@@ -4,7 +4,7 @@ pipeline {
     environment {
 
         //서버 정보
-        ip = "52.3.227.69"
+        ip = "3.94.102.116"
         username = "ubuntu"
         
         //스프링 서버 정보
