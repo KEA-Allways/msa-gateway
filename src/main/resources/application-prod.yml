@@ -37,14 +37,12 @@ spring:
 
       routes:
         - id: user-command-service-sign
-          #          uri: ${env.user-command-url}
           uri: lb://user-command-service
           predicates:
             - Path=/api/auth/**
             - Method=POST
 
         - id: user-command-service
-          #          uri: ${env.user-command-url}
           uri: lb://user-command-service
           predicates:
             - Path=/api/user/**, /api/blog/**
@@ -53,7 +51,6 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: user-query-service
-          #          uri: ${env.user-query-url}
           uri: lb://user-query-service
           predicates:
             - Path=/api/user/**, /api/blog/**
@@ -62,7 +59,6 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-command-service
-          #          uri:  ${env.blog-command-url}
           uri: lb://blog-command-service
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
@@ -71,7 +67,6 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: blog-query-service
-          #          uri: ${env.blog-query-url}
           uri: lb://blog-query-service
           predicates:
             - Path=/api/post/** ,/api/theme/**, /api/template/** , /api/category/**
@@ -80,18 +75,15 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: file-command-service
-          #          uri: ${env.file-command-url}
-          uri: lb://file-command-service
+          uri: lb://img-command-service
           predicates:
-            - Path=/api/feign/**, /api/file/**
+            - Path=/api/file/**
             - Method=POST,PUT,DELETE
-
-
+            -
         - id: file-query-service
-          #          uri: ${env.file-query-url}
-          uri: lb://file-query-service
+          uri: lb://img-query-service
           predicates:
-            - Path=/api/feign/**, /api/file/**
+            - Path=/api/file/**
             - Method=GET
 jwt:
   key:
