@@ -79,7 +79,7 @@ spring:
           predicates:
             - Path=/api/file/**
             - Method=POST,PUT,DELETE
-            -
+
         - id: file-query-service
           uri: lb://file-query-service
           predicates:
