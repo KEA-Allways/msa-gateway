@@ -75,13 +75,13 @@ spring:
             - name: AccessTokenDecryptFilter
 
         - id: file-command-service
-          uri: lb://img-command-service
+          uri: lb://file-command-service
           predicates:
             - Path=/api/file/**
             - Method=POST,PUT,DELETE
             -
         - id: file-query-service
-          uri: lb://img-query-service
+          uri: lb://file-query-service
           predicates:
             - Path=/api/file/**
             - Method=GET
